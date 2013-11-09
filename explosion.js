@@ -63,6 +63,7 @@
       this.offsetLeft = window.getOffset(this.elem).left;
       this.width = elem.offsetWidth;
       this.height = elem.offsetHeight;
+      this.attempts = 0;
     }
 
     return Particle;

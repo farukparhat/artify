@@ -48,6 +48,7 @@ class Particle
     @offsetLeft = window.getOffset(@elem).left
     @width = elem.offsetWidth
     @height = elem.offsetHeight
+    @attempts = 0
 
 this.Particle = Particle
 

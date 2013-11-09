@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+<canvas id="canvas" width="1000" height="1000"></canvas>
+
+<script>
+var raw_img = new Image();
+raw_img.crossOrigin = 'anonymous';
+//raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
+raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/fukken-high-res.jpg';
+raw_img.onload = function() {
+        var canvas = document.getElementById('canvas')
+        var ctx = canvas.getContext('2d');
+
+        if (raw_img.width - canvas.width > 0 || raw_img.height - canvas.height > 0)
+        {
+                if (raw_img.width - canvas.width > raw_img.height - canvas.height)
+                {
+                        ctx.drawImage(raw_img, 0, 0, canvas.width, raw_img.height * (canvas.width/raw_img.width));
+                }
+                else
+                {
+                        ctx.drawImage(raw_img, 0, 0, raw_img.width *  (canvas.height/raw_img.height), canvas.height);
+                }
+        }
+        var scaleFactor = calculateSize();
+};
+
+function calculateSize() {
+        var pxl_map = new Array();
+        var outMax = document.getElementById("canvas").width;
+        var inMax = document.getElementById("canvas").height;
+        var count = 0;
+        var num = 0;
+        var yStart = 0;
+        var canvas = document.getElementById('canvas')
+        var ctx = canvas.getContext('2d');
+        var data = ctx.getImageData(0, 0, 1000, 1000).data;
+        console.log(data[0]);
+        for (var x = 0; x < outMax; x++) //= x + 3)
+        {
+                var inCount = 0;
+                for (var y = yStart; y < inMax; y++) //= y + 5)
+                {
+                        //yStart = (y + 5)%inMax;
+                        tmp = new Array();
+                        for (var i = 0; i < 3; i++)
+                        {
+                                var currRed = parseInt(data[num]);
+                                var currGreen = parseInt(data[num+1]);
+                                var currBlue = parseInt(data[num+2]);
+                        }
+                        var isFilled = currRed + currBlue + currGreen < (3*200)
+                        /*if(inMax - y < 5) {
+                                if(isFilled)
+                                        inCount += inMax - y;
+                                num += (4*(inMax - y));
+                        }*/
+                        //else {
+                                if(isFilled)
+                                        count += 1;//5;
+                                num += 4; //*5;
+                        //}
+                                //pxl_map.push(tmp);
+                                //alert (pxl_map[pxl_map.length - 1]);
+                        /*tmp = new Array();
+                        //tmp.push(x);
+                        //tmp.push(y);
+
+                        for (var i = 0; i < 4; i++)
+                        {
+                                tmp.push(ctx.getImageData(x,y,1,1).data[i]);
+                        }
+
+                        if ((255 - parseInt(tmp[2])) + (255 - parseInt(tmp[3])) + (255 - parseInt(tmp[4])) > 165)
+                        {
+                                pxl_map.push(tmp);
+                                alert (pxl_map[pxl_map.length - 1]);
+                        }*/
+
+                }
+                /*if(outMax - x < 3) {
+                        count += (outMax - x)*inCount;
+                        num += 4*(outMax - x - 1)*inMax;
+                }
+                else {
+                        count += 3*inCount;
+                        num+= 4*2*inMax;
+                }*/
+        }
+        alert(count);
+        return count;
+}
+
+/*
+//initialize at beginning
+var pxl_map = new Array();
+var array_row = new Array();
+
+//on x loop, at start
+pxl_map.push(array_row);
+
+//on y loop, after each check:
+if (not white)
+{
+        array_row.push(true)
+}
+else
+{
+        array_row.push(false)
+}
+*/
+
+</script>
+
+</body>
+
+</html>
