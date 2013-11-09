@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fabric js example</title>
+    <script src="lib/all.js"></script>
+</head>
+<body>
+<div class="block">
+  <h3>Custom selection style</h3>
+  <h1>
+  	<button onclick="setIdleFalse()">stop idle!</button>
+  </h1>
+  <canvas id='c' width="1000" height="1000"></canvas>
+<script>
+    window.addEventListener("load", onWindowLoaded, false);
+
+    var total = 50;
+    var textArray = new Array(total);
+    var maxx;
+    var maxy;
+    var canvas;
+    var idle = true;
+    var targetY = 0;
+    var targetX = 0;
+    var idle = true;
+
+    function setIdleFalse(){
+      idle = false;
+    }
+
+    function onWindowLoaded() {
+      canvas = new fabric.StaticCanvas('c', {
+          renderOnAddition: false,
+          selection: false
+        });
+        
+      maxx = canvas.width;
+      maxy = canvas.height;
+
+      // Background
+      generateRandomText(canvas);
+
+      function generateRandomText(canvas){
+        for(var i = 0; i < total; i ++){
+          var text = new fabric.Text('a', {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
+          textArray[i] = text;
+          canvas.add(text);
+        }
+        setUpText();
+      }
+
+      function idleAnimation(){
+        for (var i = 0; i < total; i++) {
+          var text = textArray[i];
+          var dx = text.left;
+          var dy = text.top;
+          var vx = text.vx;
+          var vy = text.vy;
+
+          if (dx * dx + dy * dy <= 10000) {
+            vx += dx * 0.01;
+            vy += dy * 0.01;
+          }
+          vx *= 0.95;
+          vy *= 0.95;
+
+          vx += Math.random() - 0.5;
+          vy += Math.random() - 0.5;
+
+          var x = text.left += vx;
+          var y = text.top += vy;
+
+          if (x < 0 || x > maxx || y < 0 || y > maxy) {
+            var r = Math.atan2(y - maxy / 2, x - maxx / 2);
+            vx = -Math.cos(r);
+            vy = -Math.sin(r);
+          }
+
+          text.vx = vx;
+          text.vy = vy;
+        }
+      }
+
+      function goToAnimation(){
+        for (var i = 0; i < total; i++) {
+          var text = textArray[i];
+          var dx = text.left;
+          var dy = text.top;
+          var vx = text.vx;
+          var vy = text.vy;
+          var tx = text.tx;
+          var ty = text.ty;
+
+          vx *= 0.95;
+          vy *= 0.95;
+
+          if((tx - dx) > 0){
+          vx += .05;
+          }
+          else{
+          vx -= .05;  
+          }
+
+          if((ty - dy) > 0){
+            vy += .05;  
+          }
+          else{
+            vy -= .05;
+          }
+
+          var x = text.left += vx;
+          var y = text.top += vy;
+
+          text.vx = vx;
+          text.vy = vy;
+        }
+      }
+      
+      function animate() {   
+        if(idle){   
+          idleAnimation();
+        }
+        else{
+          goToAnimation();
+        }
+
+        
+        fabric.util.requestAnimFrame(animate, canvas.getElement());
+        canvas.renderAll();   
+      }
+
+      function setUpText(){
+        for (var i = 0; i < textArray.length; i++) {
+          var text = textArray[i];
+          text.vx = 0;
+          text.vy = 0;
+          targetX = canvas.width/2
+          targetY = canvas.height/2;
+          text.ty = targetY;
+          text.tx = targetX;
+        }
+        animate()
+      }
+    }
+
+
+</script>
+</div>
+</body>
+</html>
