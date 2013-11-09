@@ -61,7 +61,7 @@
         char.attempts++;
         if (fits) {
           keep = false;
-          results.push([char, finalX, finalY]);
+          results.push([finalX, finalY]);
           for (a = _l = 0, _ref2 = char.width; 0 <= _ref2 ? _l <= _ref2 : _l >= _ref2; a = 0 <= _ref2 ? ++_l : --_l) {
             for (b = _m = 0, _ref3 = char.height; 0 <= _ref3 ? _m <= _ref3 : _m >= _ref3; b = 0 <= _ref3 ? ++_m : --_m) {
               validPixels[Math.floor(a + finalX, validPixels.length - 1)][Math.floor(b + finalY, validPixels[0].length - 1)] = false;
