@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<title>
+</title>
+<head>
+	<link href="style/style.css" rel="stylesheet">
+	<script src="lib/jquery.js"></script>
+<script>
+$(document).ready(function(){
+  $("p").click(function(){
+    $(this).hide();
+  });
+
+});
+
+</script>
+</head>
+<body>
+  <p>ARTIFY</p>
+
+  <canvas id = "Canvas1" height = 800 width = 600>Your browser does not support the HTML5 canvas tag.</canvas>
+  <canvas id = "Canvas2" height = 800 width = 600></canvas>
+
+  <script>
+    
+    function generateRandomRectangles(ctx){
+      //generating random particles yo
+      ctx.fillStyle="black";
+      ctx.fillRect(0,0,10,10);
+      var numParticles = 100;
+      for (var i=0;i < numParticles; i++){
+        ctx.fillStyle="black";
+        ctx.fillRect(Math.random()*c1.width,Math.random()*c2.height,10,10);
+      }
+    }
+
+    function rmsDiff(data1,data2){
+      var squares = 0;
+      for(var i = 0; i<data1.length; i++){
+          squares += (data1[i]-data2[i])*(data1[i]-data2[i]);
+      }
+      var rms = Math.sqrt(squares/data1.length);
+      return rms;
+    }
+
+    function permutate(testCanvas,templateCanvas){
+      var testContext = testCanvas.getContext("2d");
+      var templateContext = templateCanvas.getContext("2d");
+      var lastRMS = 0;
+      var numPermuatations = 10;
+      var savedData;
+
+      for(var i = 0; i < numPermuatations; i++){
+        generateRandomRectangles(testContext);
+        /*
+        var testData = randomCtx.getImageData(0,0,testCanvas.width,testCanvas.height);
+        var templateData = templateCtx.getImageData(0,0,templateCanvas.width,templateCanvas.height);
+        var newRMS = rmsDiff(testData.data,templateData.data);
+        if(newRMS < lastRMS){
+          lastRMS = newRMS;
+          savedData = testData.slice(0);
+        }
+        */
+      }
+
+      //testContext.putImageData(savedData,0,0);
+    }
+
+
+    var c1 = document.getElementById("Canvas1");
+    var c2 = document.getElementById("Canvas2");
+  	var ctx1 = c1.getContext("2d");
+    var ctx2 = c2.getContext("2d");
+    
+    var image1Test = new Image();
+
+    image1Test.onload = function() {
+      ctx2.drawImage(image1Test, 0, 0);
+    };
+    image1Test.src = 'assets/testImage1.png';
+
+    /*
+    generateRandomRectangles(ctx1);
+
+    var testData = ctx1.getImageData(0,0,c1.width,c1.height);
+    var templateData = ctx2.getImageData(0,0,c2.width,c2.height);
+    var newRMS = rmsDiff(testData.data,templateData.data);
+
+    alert(newRMS);
+    */
+
+    permutate(c1,c2);
+
+  </script>
+
+  <p>If you click on me, I will disappear.</p>
+  <p>Click me away!</p>
+  <p>Click me too!</p>
+</body>
+</html>
+

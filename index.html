@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html>
+
+<title>
+</title>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-</script>
+	<link href="style/style.css" rel="stylesheet">
+	<script src="lib/jquery.js"></script>
 <script>
 $(document).ready(function(){
   $("p").click(function(){
     $(this).hide();
   });
+
+  $("canvas").click(function(){
+    $(this).hide();
+  });
 });
+
 </script>
 </head>
 <body>
+<p>ARTIFY</p>
+<canvas id = "myCanvas" height = 800 width = 600></canvas>
+<script>
+	function rmsDiff(data1,data2){
+    var squares = 0;
+    for(var i = 0; i<data1.length; i++){
+        squares += (data1[i]-data2[i])*(data1[i]-data2[i]);
+    }
+    var rms = Math.sqrt(squares/data1.length);
+    return rms;
+	}	
+</script>
 <p>If you click on me, I will disappear.</p>
 <p>Click me away!</p>
 <p>Click me too!</p>
