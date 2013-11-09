@@ -14,12 +14,11 @@
     }
     if (e.pageX || e.pageY) {
       posx = e.pageX;
-      posy = e.pageY;
+      return posy = e.pageY;
     } else if (e.clientX || e.clientY) {
       posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      return posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
     }
-    return alert("X: " + posx + " Y: " + posy);
   };
 
   w.getOffset = function(el) {
@@ -40,6 +39,7 @@
 
   Particle = (function() {
     function Particle(elem, body) {
+      var top;
       this.elem = elem;
       this.parent = this.elem.parentNode;
       this.char = elem.innerHTML;
@@ -60,6 +60,7 @@
       this.transformY = 0;
       this.transformRotation = 0;
       this.offsetTop = window.getOffset(this.elem).top;
+      top = window.pageYOffset || document.documentElement.scrollTop;
       this.offsetLeft = window.getOffset(this.elem).left;
       this.width = elem.offsetWidth;
       this.height = elem.offsetHeight;
@@ -104,8 +105,12 @@
         _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
           char = _ref1[_i];
-          curr = new Particle(char, this.body);
-          _results.push(curr);
+          if ((window.getOffset(this.char).top <= (window.innerHeight + window.pageYOffset)) && (window.getOffset(char).top >= pageYOffset)) {
+            curr = new Particle(char, this.body);
+            _results.push(curr);
+          } else {
+            _results.push(void 0);
+          }
         }
         return _results;
       }).call(this);

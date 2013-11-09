@@ -97,9 +97,7 @@ Proin iaculis odio elit, sit amet egestas tortor tempus vitae. Praesent porta ar
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage(raw_img, 0, 0);
                 var scaleFactor = ex.sum / calculateSize(this.width, this.height);
-                alert("Started");
                 pixels = scaleDisShit(raw_img, scaleFactor, this.width, this.height);
-                alert('Finished');
             };
             var FinishTime = new Date().getTime() / 1000;
             console.log("initializeImage time: " + (FinishTime - StartTime));
@@ -109,7 +107,6 @@ Proin iaculis odio elit, sit amet egestas tortor tempus vitae. Praesent porta ar
             var StartTime = new Date().getTime() /1000;
             ex = new Explosion()
             var sum = 0;
-            console.log(ex.chars.length);
             for(var i = 0; i < ex.chars.length; i++) {
                 var c = ex.chars[i];
                 var x = c.offsetLeft;

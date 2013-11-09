@@ -10,7 +10,6 @@ w.findClickPos = (e)->
   else if (e.clientX || e.clientY)
     posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
     posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop
-  alert "X: " + posx + " Y: " + posy
 
 w.getOffset = (el)->
   body = document.getElementsByTagName("body")[0]
@@ -45,6 +44,7 @@ class Particle
     @transformY           = 0
     @transformRotation    = 0
     @offsetTop  = window.getOffset(@elem).top
+    top = window.pageYOffset or document.documentElement.scrollTop
     @offsetLeft = window.getOffset(@elem).left
     @width = elem.offsetWidth
     @height = elem.offsetHeight
@@ -70,9 +70,10 @@ class Explosion
       )
     @explosifyNodes  @body.childNodes
     @chars = for char in document.getElementsByTagName('particle')
-      curr = new Particle(char, @body)
-      #alert "Char X: " + curr.offsetLeft + ", Y: " + curr.offsetTop
-      curr
+      if ((window.getOffset(@char).top <= (window.innerHeight + window.pageYOffset)) && (window.getOffset(char).top >= pageYOffset)) 
+        curr = new Particle(char, @body)
+        curr
+      
     for char in document.getElementsByTagName('particle')
       char.style.visibility = 'hidden'
 
