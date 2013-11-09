@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>Declaration of Independence - Text Transcript</title>
+</head>
+<div>
+
+<p><b>The unanimous Declaration of the thirteen united States of America,</b></p>
+<p>When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.</p>
+<p>We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.--That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, --That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience hath shewn, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.--Such has been the patient sufferance of these Colonies; and such is now the necessity which constrains them to alter their former Systems of Government. The history of the present King of Great Britain is a history of repeated injuries and usurpations, all having in direct object the establishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a candid world.</p>
+<p>In every stage of these Oppressions We have Petitioned for Redress in the most humble terms: Our repeated Petitions have been answered only by repeated injury. A Prince whose character is thus marked by every act which may define a Tyrant, is unfit to be the ruler of a free people.</p>
+<p>Nor have We been wanting in attentions to our Brittish brethren. We have warned them from time to time of attempts by their legislature to extend an unwarrantable jurisdiction over us. We have reminded them of the circumstances of our emigration and settlement here. We have appealed to their native justice and magnanimity, and we have conjured them by the ties of our common kindred to disavow these usurpations, which, would inevitably interrupt our connections and correspondence. They too have been deaf to the voice of justice and of consanguinity. We must, therefore, acquiesce in the necessity, which denounces our Separation, and hold them, as we hold the rest of mankind, Enemies in War, in Peace Friends.</p>
+<p>We, therefore, the Representatives of the united States of America, in General Congress, Assembled, appealing to the Supreme Judge of the world for the rectitude of our intentions, do, in the Name, and by Authority of the good People of these Colonies, solemnly publish and declare, That these United Colonies are, and of Right ought to be Free and Independent States; that they are Absolved from all Allegiance to the British Crown, and that all political connection between them and the State of Great Britain, is and ought to be totally dissolved; and that as Free and Independent States, they have full Power to levy War, conclude Peace, contract Alliances, establish Commerce, and to do all other Acts and Things which Independent States may of right do. And for the support of this Declaration, with a firm reliance on the protection of divine Providence, we mutually pledge to each other our Lives, our Fortunes and our sacred Honor.</p>
+
+</div>
+<body>
+
+    <script src="lib/all.js"></script>
+    <script src="explosion.js"></script>
+    <script>
+        var idle = false;
+        var StartTime = new Date().getTime() /1000;
+        createCanvasOverlay(1);
+        createCanvasOverlay(2);
+        var fabricCanvas = new fabric.StaticCanvas('c1');
+        var textArray = new Array();
+        addCharsToCanvas(fabricCanvas);
+        initializeImage();
+        console.log(fabricCanvas.height);
+
+        var FinishTime = new Date().getTime() / 1000;
+        console.log("total Time: " + (FinishTime - StartTime));
+
+        function setIdleFalse(){
+            idle = false;
+        }
+
+        function idleAnimation(){
+            for (var i = 0; i < textArray.length; i++) {
+              var text = textArray[i];
+              var dx = text.left;
+              var dy = text.top;
+              var vx = text.vx;
+              var vy = text.vy;
+
+              if (dx * dx + dy * dy <= 10000) {
+                vx += dx * 0.01;
+                vy += dy * 0.01;
+              }
+              vx *= 0.95;
+              vy *= 0.95;
+
+              vx += Math.random() - 0.5;
+              vy += Math.random() - 0.5;
+
+              var x = text.left += vx;
+              var y = text.top += vy;
+
+              if (x < 0 || x > maxx || y < 0 || y > maxy) {
+                var r = Math.atan2(y - maxy / 2, x - maxx / 2);
+                vx = -Math.cos(r);
+                vy = -Math.sin(r);
+              }
+
+              text.vx = vx;
+              text.vy = vy;
+            }
+        }
+
+        function goToAnimation(TargetArray){
+            for (var i = 0; i < textArray.length; i++) {
+              var text = textArray[i];
+              var dx = text.left;
+              var dy = text.top;
+              var vx = text.vx;
+              var vy = text.vy;
+              var tx = text.tx;
+              var ty = text.ty;
+
+              vx *= 0.95;
+              vy *= 0.95;
+
+              if((tx - dx) > 0){
+              vx += 1;
+              }
+              else{
+              vx -= 1;  
+              }
+
+              if((ty - dy) > 0){
+                vy += .05;  
+              }
+              else{
+                vy -= .05;
+              }
+
+              var x = text.left += vx;
+              var y = text.top += vy;
+
+              text.vx = vx;
+              text.vy = vy;
+            }
+        }
+    
+        function animate() {   
+            if(idle){   
+              idleAnimation();
+            }
+            else{
+              goToAnimation();
+            }
+
+            
+            fabric.util.requestAnimFrame(animate, fabricCanvas.getElement());
+            fabricCanvas.renderAll();   
+        }
+
+        function setUpText(){
+          maxy = fabricCanvas.height;
+          maxx = fabricCanvas.width;
+          for (var i = 0; i < textArray.length; i++) {
+            var text = textArray[i];
+            text.vx = 0;
+            text.vy = 0;
+            targetX = fabricCanvas.width/2
+            targetY = fabricCanvas.height/2;
+            text.ty = targetY;
+            text.tx = targetX;
+            text.ty = 0;
+            text.tx = 0;
+          }
+          animate();
+        }
+
+        function initializeImage() {
+            var StartTime = new Date().getTime() /1000;
+            var raw_img = new Image();
+            raw_img.crossOrigin = 'anonymous';
+            raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
+            raw_img.onload = function() {
+                var canvas = document.getElementById('c2')
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(raw_img, 0, 0);
+                var scaleFactor = ex.sum / calculateSize(this.width, this.height);
+                pixels = scaleDisShit(raw_img, scaleFactor, this.width, this.height);
+            };
+            var FinishTime = new Date().getTime() / 1000;
+            console.log("initializeImage time: " + (FinishTime - StartTime));
+        }
+
+        function addCharsToCanvas(canvas){
+            var StartTime = new Date().getTime() /1000;
+            ex = new Explosion()
+            var sum = 0;
+            for(var i = 0; i < ex.chars.length; i++) {
+                var c = ex.chars[i];
+                var x = c.offsetLeft;
+                var y = c.offsetTop;
+                var text = new fabric.Text(c.char, {
+                    left:x, 
+                    top:y,
+                    fontSize: c.fontsize,
+                    fontFamily: c.fontfamily,
+                    textDecoration: c.textdecoration,
+                    fontStyle: c.fontstyle,
+                    textAlign: c.textalign,
+                    stroke: c.stroke,
+                    strokeweight: c.strokeweight
+                });
+                sum += c.width*c.height;
+                textArray[i] = text;
+            }
+            var group = new fabric.Group(textArray, {
+            });
+            canvas.add(group);
+            ex.sum = sum;
+            var FinishTime = new Date().getTime() / 1000;
+
+            console.log("addCharsToCanvas time: " + (FinishTime - StartTime));
+            setUpText();
+        }
+
+        function scaleDisShit(raw_img, scaleFactor, width, height) {
+            var StartTime = new Date().getTime() / 1000;
+            var canvas = document.getElementById('c2')
+            var ctx = canvas.getContext('2d');
+            var newWidth = Math.round(width*scaleFactor);
+            var newHeight = Math.round(height*scaleFactor);
+            if (newWidth - canvas.width > 0 || newHeight - canvas.height > 0)
+            {
+                ctx.drawImage(raw_img, 0, 0, canvas.width, canvas.height);
+            }
+            else
+            {
+                ctx.drawImage(raw_img, 0, 0, newWidth*scaleFactor, newHeight*scaleFactor);
+            }
+            var px = findFilledPixels(newWidth, newHeight);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var FinishTime = new Date().getTime() / 1000;
+            console.log("scaleDisShit time: " + (FinishTime - StartTime));
+            return px;
+        }
+
+
+         function createCanvasOverlay(number)
+         {
+            var canvasContainer = document.createElement('div');
+            document.body.appendChild(canvasContainer);
+            canvasContainer.style.position="absolute";
+            canvasContainer.style.left="0px";
+            canvasContainer.style.top="0px";
+            canvasContainer.style.width="100%";
+            canvasContainer.style.height="100%";
+            canvasContainer.style.zIndex="100" + number;
+            canvasContainer.id = 'c' + number + '_container';
+
+            myCanvas = document.createElement('canvas');
+            myCanvas.style.width = canvasContainer.scrollWidth+"px";
+            myCanvas.style.height = canvasContainer.scrollHeight+"px";
+            myCanvas.width=canvasContainer.scrollWidth;
+            myCanvas.height=canvasContainer.scrollHeight;
+            myCanvas.style.overflow = 'visible';
+            myCanvas.style.position = 'absolute';
+            myCanvas.style.left="0px";
+            myCanvas.style.top="0px";
+            myCanvas.id = 'c' + number;
+            myCanvas.style.zIndex = "100" + (3-number);
+            document.body.removeChild(canvasContainer);
+            document.body.appendChild(myCanvas);
+         }
+
+        function findFilledPixels(width, height) {
+            var StartTime = new Date().getTime() / 1000;
+            var pxl_map = new Array();
+            var canvas = document.getElementById("c2")
+            var outMax = width;
+            var inMax = height;
+            var count = 0;
+            var num = 0;
+            var yStart = 0;
+            var ctx = canvas.getContext('2d');
+            var data = ctx.getImageData(0, 0, width, height).data;
+            for (var x = 0; x < outMax; x++) 
+            {
+                var inCount = 0;
+                tmp = new Array();
+                pxl_map[x] = tmp;
+                for (var y = 0; y < inMax; y++) 
+                {
+                    var currRed = parseInt(data[num]);
+                    var currGreen = parseInt(data[num+1]);
+                    var currBlue = parseInt(data[num+2]);
+                    var isFilled = currRed + currBlue + currGreen < (3*200);
+                    if(isFilled) {
+                        pxl_map[x][y] = true;
+                    }
+                    else {
+
+                        pxl_map[x][y] = false;
+                    }
+                    num += 4; 
+                }
+            }
+
+            var FinishTime = new Date().getTime() / 1000;
+            console.log("findFilledPixels time: " + (FinishTime - StartTime));
+
+            return pxl_map;
+        }
+
+        function calculateSize(width, height) {
+            var StartTime = new Date().getTime() / 1000;
+            var pxl_map = new Array();
+            var outMax = width;
+            var inMax = height;
+            var count = 0;
+            var num = 0;
+            var yStart = 0;
+            var canvas = document.getElementById('c2')
+            var ctx = canvas.getContext('2d');
+            var data = ctx.getImageData(0, 0, outMax, inMax).data;
+            for (var x = 0; x < outMax; x++) //= x + 3)
+            {
+                var inCount = 0;
+                for (var y = yStart; y < inMax; y++) //= y + 5)
+                {
+                    tmp = new Array();
+                    var currRed = parseInt(data[num]);
+                    var currGreen = parseInt(data[num+1]);
+                    var currBlue = parseInt(data[num+2]);
+                    var isFilled = currRed + currBlue + currGreen < (3*200)
+                    if(isFilled)
+                        count += 1;
+                    num += 4; 
+                }
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var FinishTime = new Date().getTime() / 1000;
+
+            console.log("calculate size time: " + (FinishTime - StartTime));
+            return count;
+        }
+    </script>
+</body>
+</html>
