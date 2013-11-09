@@ -65,6 +65,7 @@
       this.width = elem.offsetWidth;
       this.height = elem.offsetHeight;
       this.attempts = 0;
+      this.valid = true;
     }
 
     return Particle;

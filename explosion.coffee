@@ -27,6 +27,7 @@ class Particle
     @parent               = @elem.parentNode
     @char                 = elem.innerHTML
     @body                 = body
+    @iteration            = 0;
     @style                = @parent.style
     @fontsize             = parseFloat(window.getComputedStyle(@parent).getPropertyValue('font-size'))
     @fontfamily           = window.getComputedStyle(@parent).getPropertyValue('font-family')
@@ -49,6 +50,7 @@ class Particle
     @width = elem.offsetWidth
     @height = elem.offsetHeight
     @attempts = 0
+    @valid = true
 
 this.Particle = Particle
 
@@ -69,9 +71,12 @@ class Explosion
         @touchMoveCount = 0
       )
     @explosifyNodes  @body.childNodes
+    i = 0
     @chars = for char in document.getElementsByTagName('particle')
       if ((window.getOffset(@char).top <= (window.innerHeight + window.pageYOffset)) && (window.getOffset(char).top >= pageYOffset)) 
         curr = new Particle(char, @body)
+        curr.iteration = i
+        i++
         curr
       
     for char in document.getElementsByTagName('particle')
