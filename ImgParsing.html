@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="578" height="400"></canvas>
+    <script>
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      var imageObj = new Image();
+      imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+      ctx.drawImage(imageObj, 69, 50);
+
+      var pxl_map = new Array();
+      for (var x = 0; x < document.getElementById("canvas").width; x = x + 5)
+      {
+        for (var y = 0; y < document.getElementById("canvas").height; y = y + 5)
+        {
+          tmp = new Array();
+          tmp.push(x); tmp.push(y);
+
+          for (var i = 0; i < 4; i++)
+          {
+            alert(ctx.getImageData(x,y,1,1).data);
+            tmp.push(ctx.getImageData(x,y,1,1).data[i]);
+          }
+
+          if ((255 - parseInt(tmp[2])) + (255 - parseInt(tmp[3])) + (255 - parseInt(tmp[4])) > 165)
+          {
+            pxl_map.push(tmp);
+            alert (pxl_map[pxl_map.length - 1]);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

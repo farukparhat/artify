@@ -6,15 +6,17 @@
 <head>
 	<link href="style/style.css" rel="stylesheet">
 	<script src="lib/jquery.js"></script>
-<script>
-$(document).ready(function(){
-  $("p").click(function(){
-    $(this).hide();
+  <script src="lib/all.js"></script>
+
+  <script>
+  $(document).ready(function(){
+    $("p").click(function(){
+      $(this).hide();
+    });
+
   });
+  </script>
 
-});
-
-</script>
 </head>
 <body>
   <p>ARTIFY</p>
@@ -23,16 +25,14 @@ $(document).ready(function(){
   <canvas id = "Canvas2" height = 800 width = 600></canvas>
 
   <script>
-    
-    function generateRandomRectangles(ctx){
-      //generating random particles yo
-      ctx.fillStyle="black";
-      ctx.fillRect(0,0,10,10);
-      var numParticles = 100;
-      for (var i=0;i < numParticles; i++){
-        ctx.fillStyle="black";
-        ctx.fillRect(Math.random()*c1.width,Math.random()*c2.height,10,10);
-      }
+
+    function generateRandomText(canvas){
+        var alphabet = new Array ('a','b','c','d','e','f','g','h','j','k');
+        var numText = 100;
+        for(var i = 0; i < numText; i ++){
+          var text = new fabric.Text(alphabet[Math.round(alphabet.length*Math.random())], {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
+          canvas.add(text);
+        }
     }
 
     function rmsDiff(data1,data2){
@@ -43,42 +43,10 @@ $(document).ready(function(){
       var rms = Math.sqrt(squares/data1.length);
       return rms;
     }
-
-    function permutate(testCanvas,templateCanvas){
-      var testContext = testCanvas.getContext("2d");
-      var templateContext = templateCanvas.getContext("2d");
-      var lastRMS = 0;
-      var numPermuatations = 10;
-      var savedData;
-
-      for(var i = 0; i < numPermuatations; i++){
-        generateRandomRectangles(testContext);
-        /*
-        var testData = randomCtx.getImageData(0,0,testCanvas.width,testCanvas.height);
-        var templateData = templateCtx.getImageData(0,0,templateCanvas.width,templateCanvas.height);
-        var newRMS = rmsDiff(testData.data,templateData.data);
-        if(newRMS < lastRMS){
-          lastRMS = newRMS;
-          savedData = testData.slice(0);
-        }
-        */
-      }
-
-      //testContext.putImageData(savedData,0,0);
-    }
-
-
-    var c1 = document.getElementById("Canvas1");
-    var c2 = document.getElementById("Canvas2");
-  	var ctx1 = c1.getContext("2d");
-    var ctx2 = c2.getContext("2d");
-    
-    var image1Test = new Image();
-
-    image1Test.onload = function() {
-      ctx2.drawImage(image1Test, 0, 0);
-    };
-    image1Test.src = 'assets/testImage1.png';
+    //var fabric1 = new fabric.Canvas('Canvas1');
+    var canvas = new fabric.Canvas('Canvas2');
+        var text = new fabric.Text('h', {left:100 ,top:100});
+        canvas.add(text);
 
     /*
     generateRandomRectangles(ctx1);
@@ -88,10 +56,10 @@ $(document).ready(function(){
     var newRMS = rmsDiff(testData.data,templateData.data);
 
     alert(newRMS);
-    */
 
     permutate(c1,c2);
 
+    */
   </script>
 
   <p>If you click on me, I will disappear.</p>

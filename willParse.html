@@ -11,26 +11,28 @@
 var raw_img = new Image();
 raw_img.src = 'test.jpg';
 var ctx = document.getElementById('canvas').getContext('2d');
-ctx.drawImage(raw_img, 0, 0);
+raw_img.onload = function() {
+context.drawImage(raw_img, 0, 0);
+};
+
 
 var pxl_map = new Array();
-for (var x = 0; x < document.getElementById("canvas").width; x = x + 3)
+for (var x = 0; x < document.getElementById("canvas").width; x = x + 5)
 {
-	for (var y = 0; y < document.getElementById("canvas").height; y = y + 3)
+	for (var y = 0; y < document.getElementById("canvas").height; y = y + 5)
 	{
 		tmp = new Array();
-		if (tmp[0] < 200 || tmp[1] <200 || tmp[2] < 200)
+		tmp.push(x); tmp.push(y);
+
+		for (var i = 0; i < 4; i++)
 		{
-			tmp.push(x); tmp.push(y);
+			tmp.push(ctx.getImageData(x,y,1,1).data[i]);
+		}
 
-			for (var i = 0; i < 4; i++)
-			{
-				tmp.push(ctx.getImageData(x,y,1,1).data[i]);
-			}
-
+		if ((255 - parseInt(tmp[2])) + (255 - parseInt(tmp[3])) + (255 - parseInt(tmp[4])) > 165)
+		{
 			pxl_map.push(tmp);
-			//alert (pxl_map[pxl_map.length - 1]);
-			tmp.splice(0,tmp.length);
+			alert (pxl_map[pxl_map.length - 1]);
 		}
 	}
 }

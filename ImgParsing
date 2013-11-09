@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+<canvas id="canvas" width="1000" height="1000"></canvas>
+
+<script>
+var raw_img = new Image();
+raw_img.src = 'assets/testImage1.jpg';
+var ctx = document.getElementById('canvas').getContext('2d');
+ctx.drawImage(raw_img, 0, 0);
+
+</script>
+
+</body>
+
+</html>
