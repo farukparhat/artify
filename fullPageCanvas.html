@@ -51,8 +51,8 @@
     <script src="explosion.js"></script>
     <script>
         createCanvasOverlay(1);
-        //createCanvasOverlay(2);
-        var fabricCanvas = new fabric.StaticCanvas('c1');
+        createCanvasOverlay(2);
+        var fabricCanvas = new fabric.StaticCanvas('c2');
         var textArray = new Array();
         addCharsToCanvas(fabricCanvas);
         //scaleLargeImage();
@@ -80,10 +80,9 @@
         }
 
 
-         function createCanvasOverlay(number)
-         {
+        function createCanvasOverlay(number)
+        {
             var canvasContainer = document.createElement('div');
-            //canvasContainer.style.opacity = 0.0;
             document.body.appendChild(canvasContainer);
             canvasContainer.style.position="absolute";
             canvasContainer.style.left="0px";
@@ -92,7 +91,6 @@
             canvasContainer.style.height="100%";
             canvasContainer.style.zIndex="100" + number;
             canvasContainer.id = 'c' + number + '_container';
-
             myCanvas = document.createElement('canvas');
             myCanvas.style.width = canvasContainer.scrollWidth+"px";
             myCanvas.style.height = canvasContainer.scrollHeight+"px";
@@ -106,18 +104,9 @@
             myCanvas.style.zIndex = "100" + number;
             document.body.removeChild(canvasContainer);
             document.body.appendChild(myCanvas);
-            /*canvas = document.createElement('canvas');
-            canvas.id = 'c' + number;
-            canvas.style.zIndex = "100" + number;
-            canvas.width = document.body.clientWidth; //document.width is obsolete
-            canvas.height = document.body.clientHeight; //document.height is obsolete
-            // canvas.width = window.innerWidth;
-            // canvas.height = window.innerHeight;
-            document.body.appendChild(canvas);*/
+        }
 
-         }
-
-         function scaleLargeImage() {
+        function scaleLargeImage() {
             var raw_img = new Image();
             raw_img.crossOrigin = 'anonymous';
             raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
@@ -144,7 +133,6 @@
                     var inCount = 0;
                     for (var y = yStart; y < inMax; y++) //= y + 5)
                     {
-                        //yStart = (y + 5)%inMax;
                         tmp = new Array();
                         for (var i = 0; i < 3; i++)
                         {
@@ -153,47 +141,15 @@
                             var currBlue = parseInt(data[num+2]);
                         }
                         var isFilled = currRed + currBlue + currGreen < (3*200)
-                        /*if(inMax - y < 5) {
-                            if(isFilled)
-                                inCount += inMax - y;
-                            num += (4*(inMax - y));
-                        }*/
-                        //else {
-                            if(isFilled)
-                                count += 1;//5;
-                            num += 4; //*5;
-                        //}
-                            //pxl_map.push(tmp);
-                            //alert (pxl_map[pxl_map.length - 1]);
-                        /*tmp = new Array();
-                        //tmp.push(x); 
-                        //tmp.push(y);
-
-                        for (var i = 0; i < 4; i++)
-                        {
-                            tmp.push(ctx.getImageData(x,y,1,1).data[i]);
-                        }
-
-                        if ((255 - parseInt(tmp[2])) + (255 - parseInt(tmp[3])) + (255 - parseInt(tmp[4])) > 165)
-                        {
-                            pxl_map.push(tmp);
-                            alert (pxl_map[pxl_map.length - 1]);
-                        }*/
-
+                        if(isFilled)
+                            count += 1;
+                        num += 4; 
                     }
-                    /*if(outMax - x < 3) {
-                        count += (outMax - x)*inCount;
-                        num += 4*(outMax - x - 1)*inMax;
-                    }
-                    else {
-                        count += 3*inCount;
-                        num+= 4*2*inMax;
-                    }*/
                 }
                 alert(count);
                 return count;
             }
-         }
+        }
     </script>
 </body>
 </html>

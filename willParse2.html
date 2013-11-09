@@ -30,6 +30,24 @@ raw_img.onload = function() {
         var scaleFactor = calculateSize();
 };
 
+function scale(numLetterPixels, numImagePixels) {
+        var canvas = document.getElementById('canvas')
+        var ctx = canvas.getContext('2d');
+
+        if (raw_img.width - canvas.width > 0 || raw_img.height - canvas.height > 0)
+        {
+                if (raw_img.width - canvas.width > raw_img.height - canvas.height)
+                {
+                        ctx.drawImage(raw_img, 0, 0, canvas.width, raw_img.height * (canvas.width/raw_img.width));
+                }
+                else
+                {
+                        ctx.drawImage(raw_img, 0, 0, raw_img.width *  (canvas.height/raw_img.height), canvas.height);
+                }
+        }
+        var scaleFactor = calculateSize();
+}
+
 function calculateSize() {
         var pxl_map = new Array();
         var outMax = document.getElementById("canvas").width;
@@ -46,7 +64,6 @@ function calculateSize() {
                 var inCount = 0;
                 for (var y = yStart; y < inMax; y++) //= y + 5)
                 {
-                        //yStart = (y + 5)%inMax;
                         tmp = new Array();
                         for (var i = 0; i < 3; i++)
                         {
@@ -55,22 +72,9 @@ function calculateSize() {
                                 var currBlue = parseInt(data[num+2]);
                         }
                         var isFilled = currRed + currBlue + currGreen < (3*200)
-                        /*if(inMax - y < 5) {
                                 if(isFilled)
-                                        inCount += inMax - y;
-                                num += (4*(inMax - y));
-                        }*/
-                        //else {
-                                if(isFilled)
-                                        count += 1;//5;
-                                num += 4; //*5;
-                        //}
-                                //pxl_map.push(tmp);
-                                //alert (pxl_map[pxl_map.length - 1]);
-                        /*tmp = new Array();
-                        //tmp.push(x);
-                        //tmp.push(y);
-
+                                        count += 1;
+                                num += 4; 
                         for (var i = 0; i < 4; i++)
                         {
                                 tmp.push(ctx.getImageData(x,y,1,1).data[i]);
@@ -80,17 +84,9 @@ function calculateSize() {
                         {
                                 pxl_map.push(tmp);
                                 alert (pxl_map[pxl_map.length - 1]);
-                        }*/
+                        }
 
                 }
-                /*if(outMax - x < 3) {
-                        count += (outMax - x)*inCount;
-                        num += 4*(outMax - x - 1)*inMax;
-                }
-                else {
-                        count += 3*inCount;
-                        num+= 4*2*inMax;
-                }*/
         }
         alert(count);
         return count;
