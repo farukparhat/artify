@@ -32,10 +32,6 @@ for(var i = 0; i < 300; i ++){
 	particleList[i] = particle;
 }
 
-console.log(arrayTest.length + "X" + arrayTest[0].length);
-console.log(arrayTest[32][32]);
-console.log(arrayTest[400][400]);
-
 
 var raw_img = new Image();
 raw_img.crossOrigin = 'anonymous';
@@ -56,11 +52,10 @@ raw_img.onload = function() {
 function randomPlacement(particles, pixels){
 	var initialNumParticles = particles.length;
 	var seconds = new Date().getTime() / 1000;
-	console.log(seconds);
 	var width = pixels.length;
 	var length = pixels[0].length;
 	var currentTime = seconds;
-	while((particles.length > 150) && (currentTime - seconds) < 100){
+	while((particles.length > 100) && (currentTime - seconds) < 100){
 		var newParticles = new Array();
 		for(var i = 0; i < particles.length; i ++){
 			var part = particles[i];
