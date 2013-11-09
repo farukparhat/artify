@@ -14,13 +14,13 @@
 
 </div>
 <body>
-  
+
 
     <script src="lib/all.js"></script>
     <script src="explosion.js"></script>
+    <script src="greedyPlaceFinder.js"></script>
     <script>
         var idle = false;
-        var StartTime = new Date().getTime() /1000;
         createCanvasOverlay(1);
         createCanvasOverlay(2);
         var fabricCanvas = new fabric.StaticCanvas('c1');
@@ -28,8 +28,6 @@
         addCharsToCanvas(fabricCanvas);
         initializeImage();
 
-        var FinishTime = new Date().getTime() / 1000;
-        console.log("total Time: " + (FinishTime - StartTime));
 
         function setIdleFalse(){
             idle = false;
@@ -143,7 +141,6 @@
         }
 
         function initializeImage() {
-            var StartTime = new Date().getTime() /1000;
             var raw_img = new Image();
             raw_img.crossOrigin = 'anonymous';
             raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
@@ -153,9 +150,12 @@
                 ctx.drawImage(raw_img, 0, 0);
                 var scaleFactor = ex.sum / calculateSize(this.width, this.height);
                 pixels = scaleDisShit(raw_img, scaleFactor, this.width, this.height);
+                var movements = window.greedyAlgorithm(ex.chars, pixels)
+                var targetArray = movements;
+                setUpText(targetArray);
+                //@Faruh your array is called "movements" and it is directly above. Please only do shit with it in this function block since this has to all happen
+                //after the image has loaded
             };
-            var FinishTime = new Date().getTime() / 1000;
-            console.log("initializeImage time: " + (FinishTime - StartTime));
         }
 
         function addCharsToCanvas(canvas){
@@ -184,12 +184,7 @@
             });
             canvas.add(group);
             ex.sum = sum;
-            var FinishTime = new Date().getTime() / 1000;
-
-            console.log("addCharsToCanvas time: " + (FinishTime - StartTime));
-
-            var targetArray = createTargetArray();
-            setUpText(targetArray);
+            globalPixels = initializeImage();
         }
 
         function scaleDisShit(raw_img, scaleFactor, width, height) {
@@ -208,8 +203,6 @@
             }
             var px = findFilledPixels(newWidth, newHeight);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            var FinishTime = new Date().getTime() / 1000;
-            console.log("scaleDisShit time: " + (FinishTime - StartTime));
             return px;
         }
 
