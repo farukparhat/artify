@@ -30,6 +30,16 @@ class Particle
     @body                 = body
     @style                = @parent.style
     @fontsize             = parseFloat(window.getComputedStyle(@parent).getPropertyValue('font-size'))
+    @fontfamily           = window.getComputedStyle(@parent).getPropertyValue('font-family')
+    @fontweight           = window.getComputedStyle(@parent).getPropertyValue('font-weight')
+    @textdecoration       = window.getComputedStyle(@parent).getPropertyValue('text-decoration')
+    @fontstyle            = window.getComputedStyle(@parent).getPropertyValue('font-style')
+    @lineheight           = window.getComputedStyle(@parent).getPropertyValue('line-height')
+    @textalign            = window.getComputedStyle(@parent).getPropertyValue('text-allign')
+    @stroke               = window.getComputedStyle(@parent).getPropertyValue('stroke')
+    @strokeweight         = window.getComputedStyle(@parent).getPropertyValue('stroke-weight')
+    @cssprops             = [@fontsize, @fontfamily, @fontweight, @textdecoration, @fontstyle, @lineheight, @textalign, @stroke, @strokeweight]
+
     @elem.style['zIndex'] = -9999
     @transformX           = 0
     @transformY           = 0
@@ -46,9 +56,6 @@ class Explosion
     @chars = for char in document.getElementsByTagName('particle')
       curr = new Particle(char, @body)
       curr
-    for part in @chars
-      alert (part.char + ": " + "X= " + part.offsetLeft + ", Y= " + part.offsetTop + 
-        ", \nFont: " + part.fontsize)
 
   explosifyNodes:(nodes)->
     for node in nodes
@@ -76,4 +83,5 @@ class Explosion
     chars = for char, index in chars.split '&nbsp;'
       unless /^\s*$/.test(char) then "<word style='white-space:nowrap'>#{char}</word>" else char
     chars.join(' ')
-new Explosion()
+
+this.Explosion = Explosion

@@ -48,6 +48,15 @@
       this.body = body;
       this.style = this.parent.style;
       this.fontsize = parseFloat(window.getComputedStyle(this.parent).getPropertyValue('font-size'));
+      this.fontfamily = window.getComputedStyle(this.parent).getPropertyValue('font-family');
+      this.fontweight = window.getComputedStyle(this.parent).getPropertyValue('font-weight');
+      this.textdecoration = window.getComputedStyle(this.parent).getPropertyValue('text-decoration');
+      this.fontstyle = window.getComputedStyle(this.parent).getPropertyValue('font-style');
+      this.lineheight = window.getComputedStyle(this.parent).getPropertyValue('line-height');
+      this.textalign = window.getComputedStyle(this.parent).getPropertyValue('text-allign');
+      this.stroke = window.getComputedStyle(this.parent).getPropertyValue('stroke');
+      this.strokeweight = window.getComputedStyle(this.parent).getPropertyValue('stroke-weight');
+      this.cssprops = [this.fontsize, this.fontfamily, this.fontweight, this.textdecoration, this.fontstyle, this.lineheight, this.textalign, this.stroke, this.strokeweight];
       this.elem.style['zIndex'] = -9999;
       this.transformX = 0;
       this.transformY = 0;
@@ -64,7 +73,7 @@
 
   Explosion = (function() {
     function Explosion() {
-      var char, curr, part, _i, _len, _ref;
+      var char, curr;
       this.body = document.getElementsByTagName("body")[0];
       this.explosifyNodes(this.body.childNodes);
       this.chars = (function() {
@@ -78,11 +87,6 @@
         }
         return _results;
       }).call(this);
-      _ref = this.chars;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        part = _ref[_i];
-        alert(part.char + ": " + "X= " + part.offsetLeft + ", Y= " + part.offsetTop + ", \nFont: " + part.fontsize);
-      }
     }
 
     Explosion.prototype.explosifyNodes = function(nodes) {
@@ -158,6 +162,6 @@
 
   })();
 
-  new Explosion();
+  this.Explosion = Explosion;
 
 }).call(this);

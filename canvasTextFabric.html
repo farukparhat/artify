@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fabric js example</title>
+    <script src="lib/all.js"></script>
+    <script src="explosion.js"></script>
+</head>
+<body>
+<div class="block">
+    <h3>Custom selection style</h3>
+    <canvas id="c1" width="600" height="800" style="border:1px solid #000"></canvas>
+    <canvas id="c2" width="600" height="800" style="border:1px solid #000"></canvas>
+    <script>
+        var canvas1 = new fabric.Canvas('c1');
+        var canvas2 = new fabric.Canvas('c2');
+        var textArray = new Array();
+
+        fabric.Image.fromURL('assets/testImage1.png', function(oImg) {
+            oImg.setOriginX("left");
+            oImg.setOriginY("top");
+            canvas2.add(oImg);
+        });
+        
+        generateRandomText(canvas1);
+
+        var testCanvas = document.getElementById('c1');
+        var testContext = testCanvas.getContext('2d');
+        var testData = testContext.getImageData(0,0,testCanvas.width,testCanvas.height);
+        
+        var templateCanvas = document.getElementById('c2');
+        var templateContext = templateCanvas.getContext('2d');
+        var templateData = templateContext.getImageData(0,0,templateCanvas.width,templateCanvas.height);
+
+
+        function rmsDiff(data1,data2){
+          var squares = 0;
+          for(var i = 0; i<data1.length; i++){
+              squares += (data1[i]-data2[i])*(data1[i]-data2[i]);
+          }
+          var rms = Math.sqrt(squares/data1.length);
+          return rms;
+        }
+
+        function generateRandomText(canvas){
+            var ex = new Explosion()
+            var alphabet = new Array ('a','b','c','d','e','f','g','h','j','k');
+            var numText = 100;
+            for(var i = 0; i < ex.chars.length; i++) {
+                var c = ex.chars[i];
+                var x = c.offsetLeft;
+                var y = c.offsetTop;
+                alert("X: " + x + ", Y: " + y);
+                var text = new fabric.Text(c.char, {left:x, top:y});
+                text.set({fontSize: c.fontsize});
+                text.set({fontFamily: c.fontfamily});
+                text.set({fontWeight: c.fontweight});
+                text.set({textDecoration: c.textdecoration});
+                text.set({fontStyle: c.fontstyle});
+                //text.set({lineHeight: c.lineheight});
+                text.set({textAlign: c.textalign});
+                text.set({stroke: c.stroke});
+                text.set({strokeweight: c.strokeweight});
+                textArray[i] = text;
+                canvas.add(text);
+
+            }
+            alert("Blah");
+            /*for(var i = 0; i < numText; i ++){
+              var text = new fabric.Text('a', {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
+              textArray[i] = text;
+              canvas.add(text);
+            }*/
+        }
+
+        //takes two fabrics and permutates them.
+        function permutate(testCanvas1ID, testCanvas2ID){
+            var numPermutate = 0;
+            for(var i = 0; i < numPermutate; i ++){
+
+            }
+        }
+    </script>
+</div>
+</body>
+</html>
