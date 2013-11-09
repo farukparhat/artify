@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+<canvas id="canvas" width="1000" height="1000"></canvas>
+
+<script>
+
+var arrayTest = new Array();
+for(var r = 0; r < 1000; r ++){
+	arrayTest[r] = new Array();
+	for(var c = 0; c < 1000; c ++){
+		arrayTest[r][c] = false;
+		if(r > 300 && r < 600){
+			if(c > 300 && c < 600){
+				arrayTest[r][c] = true;
+			}
+		}
+	}
+}
+
+var particleList = new Array();
+for(var i = 0; i < 300; i ++){
+	var particle = new Object();
+	particle.id = i;
+	particle.width = 6;
+	particle.height = 15;
+	particle.valid = true;
+	particleList[i] = particle;
+}
+
+
+console.log(arrayTest.length + "X" + arrayTest[0].length);
+console.log(arrayTest[32][32]);
+console.log(arrayTest[400][400]);
+
+
+var raw_img = new Image();
+raw_img.crossOrigin = 'anonymous';
+raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
+raw_img.onload = function() {
+	var canvas = document.getElementById('canvas')
+	var ctx = canvas.getContext('2d');
+	alert("yo");
+	ctx.drawImage(raw_img, 0, 0, 1000, 1000);
+	var scaleFactor = calculateSize();
+	randomPlacement(particleList, arrayTest);
+};
+
+
+//NO BAD FARUH
+//randomPlacement(particleList, arrayTest);
+
+function randomPlacement(particles, pixels){
+	var seconds = new Date().getTime() / 1000;
+	var width = pixels.length;
+	var length = pixels[0].length;
+	while((particles.length > 150) && (currentTime - seconds) < 10){
+		var currentTime = new Date().getTime() / 1000
+		console.log('1');
+		var newParticles = new Array();
+		for(var i = 0; i < particles.length; i ++){
+			var part = particles[i];
+			x = Math.round(Math.random()*width - 1);
+			y = Math.round(Math.random()*length - 1);
+			if (pixels[x][y]){
+				alert(x + "," + y);
+				for(var w = 0; w < part.width; w ++){
+					for(var h = 0; h < part.height; h++){
+						pixels[w+x][h+y] = false;
+					}
+				}
+				part.valid = false;
+				alert('Removed a thing');
+				console.log("Removed particle " + particle.id);
+			}
+			if (part.valid){
+				newParticles.push(part);
+			}
+		}
+		particles = newParticles;
+	}
+}
+
+function calculateSize() {
+	var pxl_map = new Array();
+	var outMax = document.getElementById("canvas").width;
+	var inMax = document.getElementById("canvas").height;
+	var count = 0;
+	var num = 0;
+	var yStart = 0;
+	var canvas = document.getElementById('canvas')
+	var ctx = canvas.getContext('2d');
+	var data = ctx.getImageData(0, 0, 1000, 1000).data;
+	for (var x = 0; x < outMax; x++) //= x + 3)
+	{
+		var inCount = 0;
+		for (var y = yStart; y < inMax; y++) //= y + 5)
+		{
+			//yStart = (y + 5)%inMax;
+			tmp = new Array();
+			for (var i = 0; i < 3; i++)
+			{
+				var currRed = parseInt(data[num]);
+				var currGreen = parseInt(data[num+1]);
+				var currBlue = parseInt(data[num+2]);
+			}
+			var isFilled = currRed + currBlue + currGreen < (3*200)
+
+			if(isFilled){
+				count += 1;
+			}
+
+			num += 4; 
+			
+		}
+	}
+	alert(count);
+	return count;
+}
+
+</script>
+
+</body>
+
+</html>
