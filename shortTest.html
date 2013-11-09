@@ -128,14 +128,12 @@
         function setUpText(TargetArray){
           maxy = fabricCanvas.height;
           maxx = fabricCanvas.width;
-          for (var i = 0; i < textArray.length; i++) {
+          for (var i = 0; i < TargetArray.length; i++) {
             var text = textArray[i];
             text.vx = 0;
             text.vy = 0;
-            targetX = TargetArray[i][0];
-            targetY = TargetArray[i][1];
-            text.ty = targetY;
-            text.tx = targetX;
+            text.ty = TargetArray[i][1];
+            text.tx = TargetArray[i][0];
           }
           animate();
         }
