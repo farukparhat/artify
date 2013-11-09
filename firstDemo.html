@@ -1,0 +1,219 @@
+
+<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+    body {
+        background-color: #f0f0f2;
+        margin: 0;
+        padding: 0;
+        font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        
+    }
+    div {
+        width: 600px;
+        margin: 5em auto;
+        padding: 50px;
+        background-color: #fff;
+        border-radius: 1em;
+    }
+    a:link, a:visited {
+        color: #38488f;
+        text-decoration: none;
+    }
+    @media (max-width: 700px) {
+        body {
+            background-color: #fff;
+        }
+        div {
+            width: auto;
+            margin: 0 auto;
+            border-radius: 0;
+            padding: 1em;
+        }
+    }
+    </style>    
+</head>
+
+<body>
+<div>
+    <h1>Example Domain</h1>
+    <p>This domain is established to be used for illustrative examples in documents. You may use this
+    domain in examples without prior coordination or asking for permission.</p>
+    <p><a href="http://www.iana.org/domains/example">More information...</a></p>
+</div>
+    <script src="lib/all.js"></script>
+    <script src="explosion.js"></script>
+    <script>
+        createCanvasOverlay(1);
+        createCanvasOverlay(2);
+        var fabricCanvas = new fabric.StaticCanvas('c1');
+        var textArray = new Array();
+        addCharsToCanvas(fabricCanvas);
+        initializeImage();
+
+        function initializeImage() {
+            var raw_img = new Image();
+            raw_img.crossOrigin = 'anonymous';
+            raw_img.src = 'https://dl.dropboxusercontent.com/u/6258038/test.jpg';
+            raw_img.onload = function() {
+                var canvas = document.getElementById('c2')
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(raw_img, 0, 0);
+                var scaleFactor = ex.sum / calculateSize(this.width, this.height);
+                alert("Started");
+                pixels = scaleDisShit(raw_img, scaleFactor, this.width, this.height)
+                for(var i = 0; i < pixels.length; i++) {
+                    for(var j = 0; j < pixels[0].length; j++) {
+                        if(pixels[i][j])
+                            alert('Dicks ' + i + ', ' + j);
+                            console.log(i + ", " + j);
+                    }
+                }
+                alert('Finished');
+            };
+        }
+
+        function addCharsToCanvas(canvas){
+            ex = new Explosion()
+            var sum = 0;
+            for(var i = 0; i < ex.chars.length; i++) {
+                var c = ex.chars[i];
+                var x = c.offsetLeft;
+                var y = c.offsetTop;
+                var text = new fabric.Text(c.char, {left:x, top:y});
+                sum += c.width*c.height;
+                text.set({fontSize: c.fontsize});
+                text.set({fontFamily: c.fontfamily});
+                text.set({fontWeight: c.fontweight});
+                text.set({textDecoration: c.textdecoration});
+                text.set({fontStyle: c.fontstyle});
+                text.set({textAlign: c.textalign});
+                text.set({stroke: c.stroke});
+                text.set({strokeweight: c.strokeweight});
+                textArray[i] = text;
+                canvas.add(text);
+            }
+            ex.sum = sum;
+        }
+
+        function scaleDisShit(raw_img, scaleFactor, width, height) {
+            var canvas = document.getElementById('c2')
+            var ctx = canvas.getContext('2d');
+            var newWidth = Math.round(width*scaleFactor);
+            var newHeight = Math.round(height*scaleFactor);
+            if (newWidth - canvas.width > 0 || newHeight - canvas.height > 0)
+            {
+                alert('First');
+                ctx.drawImage(raw_img, 0, 0, canvas.width, canvas.height);
+            }
+            else
+            {
+                alert('Second');
+                ctx.drawImage(raw_img, 0, 0, newWidth*scaleFactor, newHeight*scaleFactor);
+            }
+            var px = findFilledPixels(newWidth, newHeight);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return px;
+        }
+
+
+         function createCanvasOverlay(number)
+         {
+            var canvasContainer = document.createElement('div');
+            document.body.appendChild(canvasContainer);
+            canvasContainer.style.position="absolute";
+            canvasContainer.style.left="0px";
+            canvasContainer.style.top="0px";
+            canvasContainer.style.width="100%";
+            canvasContainer.style.height="100%";
+            canvasContainer.style.zIndex="100" + number;
+            canvasContainer.id = 'c' + number + '_container';
+
+            myCanvas = document.createElement('canvas');
+            myCanvas.style.width = canvasContainer.scrollWidth+"px";
+            myCanvas.style.height = canvasContainer.scrollHeight+"px";
+            myCanvas.width=canvasContainer.scrollWidth;
+            myCanvas.height=canvasContainer.scrollHeight;
+            myCanvas.style.overflow = 'visible';
+            myCanvas.style.position = 'absolute';
+            myCanvas.style.left="0px";
+            myCanvas.style.top="0px";
+            myCanvas.id = 'c' + number;
+            myCanvas.style.zIndex = "100" + (3-number);
+            document.body.removeChild(canvasContainer);
+            document.body.appendChild(myCanvas);
+         }
+
+        function findFilledPixels(width, height) {
+            var pxl_map = new Array();
+            var canvas = document.getElementById("c2")
+            var outMax = width;
+            var inMax = height;
+            var count = 0;
+            var num = 0;
+            var yStart = 0;
+            var ctx = canvas.getContext('2d');
+            var data = ctx.getImageData(0, 0, width, height).data;
+            for (var x = 0; x < outMax; x++) 
+            {
+                var inCount = 0;
+                tmp = new Array();
+                pxl_map[x] = tmp;
+                for (var y = 0; y < inMax; y++) 
+                {
+                    var currRed = parseInt(data[num]);
+                    var currGreen = parseInt(data[num+1]);
+                    var currBlue = parseInt(data[num+2]);
+                    var isFilled = currRed + currBlue + currGreen < (3*200);
+                    if(isFilled) {
+                        pxl_map[x][y] = true;
+                    }
+                    else {
+
+                        pxl_map[x][y] = false;
+                    }
+                    num += 4; 
+                }
+            }
+            alert(num/4);
+            return pxl_map;
+        }
+
+        function calculateSize(width, height) {
+            var pxl_map = new Array();
+            var outMax = width;
+            var inMax = height;
+            var count = 0;
+            var num = 0;
+            var yStart = 0;
+            var canvas = document.getElementById('c2')
+            var ctx = canvas.getContext('2d');
+            var data = ctx.getImageData(0, 0, outMax, inMax).data;
+            console.log(data[0]);
+            for (var x = 0; x < outMax; x++) //= x + 3)
+            {
+                var inCount = 0;
+                for (var y = yStart; y < inMax; y++) //= y + 5)
+                {
+                    tmp = new Array();
+                    var currRed = parseInt(data[num]);
+                    var currGreen = parseInt(data[num+1]);
+                    var currBlue = parseInt(data[num+2]);
+                    var isFilled = currRed + currBlue + currGreen < (3*200)
+                    if(isFilled)
+                        count += 1;
+                    num += 4; 
+                }
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return count;
+        }
+    </script>
+</body>
+</html>
