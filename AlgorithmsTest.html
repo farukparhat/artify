@@ -32,7 +32,6 @@ for(var i = 0; i < 300; i ++){
 	particleList[i] = particle;
 }
 
-
 console.log(arrayTest.length + "X" + arrayTest[0].length);
 console.log(arrayTest[32][32]);
 console.log(arrayTest[400][400]);
@@ -55,27 +54,26 @@ raw_img.onload = function() {
 //randomPlacement(particleList, arrayTest);
 
 function randomPlacement(particles, pixels){
+	var initialNumParticles = particles.length;
 	var seconds = new Date().getTime() / 1000;
+	console.log(seconds);
 	var width = pixels.length;
 	var length = pixels[0].length;
-	while((particles.length > 150) && (currentTime - seconds) < 10){
-		var currentTime = new Date().getTime() / 1000
-		console.log('1');
+	var currentTime = seconds;
+	while((particles.length > 150) && (currentTime - seconds) < 100){
 		var newParticles = new Array();
 		for(var i = 0; i < particles.length; i ++){
 			var part = particles[i];
-			x = Math.round(Math.random()*width - 1);
-			y = Math.round(Math.random()*length - 1);
+			x = Math.round(Math.random()*(width - 1));
+			y = Math.round(Math.random()*(length - 1));
 			if (pixels[x][y]){
-				alert(x + "," + y);
 				for(var w = 0; w < part.width; w ++){
 					for(var h = 0; h < part.height; h++){
 						pixels[w+x][h+y] = false;
 					}
 				}
 				part.valid = false;
-				alert('Removed a thing');
-				console.log("Removed particle " + particle.id);
+				//console.log("Removed particle " + part.id);
 			}
 			if (part.valid){
 				newParticles.push(part);
@@ -83,6 +81,10 @@ function randomPlacement(particles, pixels){
 		}
 		particles = newParticles;
 	}
+	currentTime = new Date().getTime() / 1000
+	console.log("total time taken: " + (currentTime - seconds));
+	console.log("particles removed: "+ (initialNumParticles- particles.length));
+	console.log("DONE!");
 }
 
 function calculateSize() {
