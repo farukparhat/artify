@@ -46,12 +46,15 @@ class Particle
     @transformRotation    = 0
     @offsetTop  = window.getOffset(@elem).top
     @offsetLeft = window.getOffset(@elem).left
+    @width = elem.offsetWidth
+    @height = elem.offsetHeight
 
 this.Particle = Particle
 
 class Explosion
   constructor:()->
     @body          = document.getElementsByTagName("body")[0]
+    @pixels = 0
     @body?.onclick = (event)=>@justClicked(event)
     @body.addEventListener("touchstart", (event)=>
         @touchEvent = event
@@ -67,7 +70,12 @@ class Explosion
     @explosifyNodes  @body.childNodes
     @chars = for char in document.getElementsByTagName('particle')
       curr = new Particle(char, @body)
+      #alert "Char X: " + curr.offsetLeft + ", Y: " + curr.offsetTop
       curr
+    for char in document.getElementsByTagName('particle')
+      char.style.visibility = 'hidden'
+
+
 
   justClicked:(event)=>
     pos = window.findClickPos(event)

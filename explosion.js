@@ -61,6 +61,8 @@
       this.transformRotation = 0;
       this.offsetTop = window.getOffset(this.elem).top;
       this.offsetLeft = window.getOffset(this.elem).left;
+      this.width = elem.offsetWidth;
+      this.height = elem.offsetHeight;
     }
 
     return Particle;
@@ -72,9 +74,10 @@
   Explosion = (function() {
     function Explosion() {
       this.justClicked = __bind(this.justClicked, this);
-      var char, curr, _ref,
+      var char, curr, _i, _len, _ref, _ref1,
         _this = this;
       this.body = document.getElementsByTagName("body")[0];
+      this.pixels = 0;
       if ((_ref = this.body) != null) {
         _ref.onclick = function(event) {
           return _this.justClicked(event);
@@ -105,6 +108,11 @@
         }
         return _results;
       }).call(this);
+      _ref1 = document.getElementsByTagName('particle');
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        char = _ref1[_i];
+        char.style.visibility = 'hidden';
+      }
     }
 
     Explosion.prototype.justClicked = function(event) {
