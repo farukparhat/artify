@@ -7,7 +7,7 @@ window.greedyAlgorithm = (chars, validPixels)->
 		newChars = []
 		for char in chars
 			currTime = new Date().getTime() / 1000
-			if currTime > seconds + 15
+			if currTime > seconds + 10
 				break
 			keep = true
 			checks = []
@@ -57,7 +57,6 @@ window.greedyAlgorithm = (chars, validPixels)->
 			chars = newChars
 		else
 			chars = []
-	alert "Finished!!" + results.length
 	return results
 
 

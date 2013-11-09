@@ -11,7 +11,7 @@
       for (_i = 0, _len = chars.length; _i < _len; _i++) {
         char = chars[_i];
         currTime = new Date().getTime() / 1000;
-        if (currTime > seconds + 15) {
+        if (currTime > seconds + 10) {
           break;
         }
         keep = true;
@@ -78,7 +78,6 @@
         chars = [];
       }
     }
-    alert("Finished!!" + results.length);
     return results;
   };
 

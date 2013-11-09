@@ -329,7 +329,8 @@ linking to this page (<a href="http://SteveMiller.net/PureText">http://SteveMill
                 var scaleFactor = ex.sum / calculateSize(this.width, this.height);
                 pixels = scaleDisShit(raw_img, scaleFactor, this.width, this.height);
                 var movements = window.greedyAlgorithm(ex.chars, pixels)
-                alert('Finished initialize image: ' + movements.length);
+                //@Faruh your array is called "movements" and it is directly above. Please only do shit with it in this function block since this has to all happen
+                //after the image has loaded
             };
         }
 
@@ -412,7 +413,7 @@ linking to this page (<a href="http://SteveMiller.net/PureText">http://SteveMill
                 ctx.drawImage(raw_img, 0, 0, newWidth*scaleFactor, newHeight*scaleFactor);
             }
             var px = findFilledPixels(newWidth, newHeight);
-            //ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             var FinishTime = new Date().getTime() / 1000;
             return px;
         }
@@ -509,7 +510,7 @@ linking to this page (<a href="http://SteveMiller.net/PureText">http://SteveMill
                     num += 4; 
                 }
             }
-            //ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             var FinishTime = new Date().getTime() / 1000;
 
             return count;
