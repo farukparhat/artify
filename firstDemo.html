@@ -412,6 +412,90 @@ and its history.</p></td>
         var FinishTime = new Date().getTime() / 1000;
         console.log("total Time: " + (FinishTime - StartTime));
 
+        function setIdleFalse(){
+            idle = false;
+        }
+
+        function idleAnimation(){
+            for (var i = 0; i < total; i++) {
+              var text = textArray[i];
+              var dx = text.left;
+              var dy = text.top;
+              var vx = text.vx;
+              var vy = text.vy;
+
+              if (dx * dx + dy * dy <= 10000) {
+                vx += dx * 0.01;
+                vy += dy * 0.01;
+              }
+              vx *= 0.95;
+              vy *= 0.95;
+
+              vx += Math.random() - 0.5;
+              vy += Math.random() - 0.5;
+
+              var x = text.left += vx;
+              var y = text.top += vy;
+
+              if (x < 0 || x > maxx || y < 0 || y > maxy) {
+                var r = Math.atan2(y - maxy / 2, x - maxx / 2);
+                vx = -Math.cos(r);
+                vy = -Math.sin(r);
+              }
+
+              text.vx = vx;
+              text.vy = vy;
+            }
+        }
+
+        function goToAnimation(){
+            for (var i = 0; i < total; i++) {
+              var text = textArray[i];
+              var dx = text.left;
+              var dy = text.top;
+              var vx = text.vx;
+              var vy = text.vy;
+              var tx = text.tx;
+              var ty = text.ty;
+
+              vx *= 0.95;
+              vy *= 0.95;
+
+              if((tx - dx) > 0){
+              vx += .05;
+              }
+              else{
+              vx -= .05;  
+              }
+
+              if((ty - dy) > 0){
+                vy += .05;  
+              }
+              else{
+                vy -= .05;
+              }
+
+              var x = text.left += vx;
+              var y = text.top += vy;
+
+              text.vx = vx;
+              text.vy = vy;
+            }
+        }
+    
+        function animate() {   
+            if(idle){   
+              idleAnimation();
+            }
+            else{
+              goToAnimation();
+            }
+
+            
+            fabric.util.requestAnimFrame(animate, canvas.getElement());
+            canvas.renderAll();   
+        }
+
         function initializeImage() {
             var StartTime = new Date().getTime() /1000;
             var raw_img = new Image();
