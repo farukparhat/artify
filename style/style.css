@@ -1,0 +1,19 @@
+canvas{
+	border-style:solid;
+	border-width:5px;
+	border-color:white;
+	margin-left: 50px;
+	margin-right: 50px;
+	background: #fff;
+}
+
+
+
+body {
+	min-height: 2000px;
+	padding-top: 90px; /* 60px to make the container go all the way to the bottom of the topbar */
+	text-align: center;
+	background: #fff;
+	background: linear-gradient(45deg, #f20, yellow);
+	min-height: 100%;
+	}
