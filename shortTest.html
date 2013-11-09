@@ -14,6 +14,7 @@
 
 </div>
 <body>
+  
 
     <script src="lib/all.js"></script>
     <script src="explosion.js"></script>
@@ -26,7 +27,6 @@
         var textArray = new Array();
         addCharsToCanvas(fabricCanvas);
         initializeImage();
-        console.log(fabricCanvas.height);
 
         var FinishTime = new Date().getTime() / 1000;
         console.log("total Time: " + (FinishTime - StartTime));
@@ -115,19 +115,29 @@
             fabricCanvas.renderAll();   
         }
 
-        function setUpText(){
+        function createTargetArray(){
+          var targets = new Array();
+          for(var i = 0; i < textArray.length; i ++){
+            //set these values to your preference
+            targets[i] = new Array();
+            targets[i][0] = 0;
+            targets[i][1] = 0;
+          }
+
+          return targets;
+        }
+
+        function setUpText(TargetArray){
           maxy = fabricCanvas.height;
           maxx = fabricCanvas.width;
           for (var i = 0; i < textArray.length; i++) {
             var text = textArray[i];
             text.vx = 0;
             text.vy = 0;
-            targetX = fabricCanvas.width/2
-            targetY = fabricCanvas.height/2;
+            targetX = TargetArray[i][0];
+            targetY = TargetArray[i][1];
             text.ty = targetY;
             text.tx = targetX;
-            text.ty = 0;
-            text.tx = 0;
           }
           animate();
         }
@@ -177,7 +187,9 @@
             var FinishTime = new Date().getTime() / 1000;
 
             console.log("addCharsToCanvas time: " + (FinishTime - StartTime));
-            setUpText();
+
+            var targetArray = createTargetArray();
+            setUpText(targetArray);
         }
 
         function scaleDisShit(raw_img, scaleFactor, width, height) {
