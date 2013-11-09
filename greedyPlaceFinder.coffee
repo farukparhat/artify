@@ -47,7 +47,7 @@ window.greedyAlgorithm = (chars, validPixels)->
 			char.attempts++;
 			if fits
 				keep = false
-				results.push([char, finalX, finalY]);
+				results.push([finalX, finalY]);
 				for a in [0..char.width] 
 					for b in [0..char.height]
 						validPixels[Math.floor(a+finalX, validPixels.length-1)][Math.floor(b+finalY, validPixels[0].length-1)] = false
