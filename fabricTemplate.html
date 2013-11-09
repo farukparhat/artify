@@ -3,6 +3,15 @@
 <head>
     <title>fabric js example</title>
     <script src="lib/all.js"></script>
+
+    <h1>
+        <p>
+            <button onclick="changeText()">Changetext</button>
+        </p>
+        <p>
+            <button onclick="rmsValue()"> GET THE RMS </button>
+        </p>
+    </h1>
 </head>
 <body>
 <div class="block">
@@ -10,9 +19,12 @@
     <canvas id="c1" width="600" height="800" style="border:1px solid #000"></canvas>
     <canvas id="c2" width="600" height="800" style="border:1px solid #000"></canvas>
     <script>
-        var canvas1 = new fabric.Canvas('c1');
-        var canvas2 = new fabric.Canvas('c2');
-        var textArray = new Array();
+        document.body.appendChild(document.getElementById('c1'));
+        document.body.appendChild(document.getElementById('c2'));
+        var canvas1 = new fabric.StaticCanvas('c1');
+        var canvas2 = new fabric.StaticCanvas('c2');
+        var textArray = new Array();   
+
 
         fabric.Image.fromURL('assets/testImage1.png', function(oImg) {
             oImg.setOriginX("left");
@@ -20,17 +32,77 @@
             canvas2.add(oImg);
         });
         
-        generateRandomText(canvas1);
+        generateRandomText(canvas1);  
+        //changeStatus();
 
-        var testCanvas = document.getElementById('c1');
-        var testContext = testCanvas.getContext('2d');
-        var testData = testContext.getImageData(0,0,testCanvas.width,testCanvas.height);
-        
-        var templateCanvas = document.getElementById('c2');
-        var templateContext = templateCanvas.getContext('2d');
-        var templateData = templateContext.getImageData(0,0,templateCanvas.width,templateCanvas.height);
+        var c=document.getElementById("c2");
+        var ctx=c.getContext("2d");
+        var imgData=ctx.createImageData(100,100);
+        for (var i=0;i<imgData.data.length;i+=4)
+          {
+          imgData.data[i+0]=255;
+          imgData.data[i+1]=0;
+          imgData.data[i+2]=0;
+          imgData.data[i+3]=255;
+          }
+        ctx.putImageData(imgData,10,10);
 
-        alert(rmsDiff(testData.data, templateData.data));
+
+        function changeStatus(){
+            for(var i = 0; i < 10; i ++){
+                changeText();
+                alert(getRMS()); 
+            }
+        }
+
+        function changeText(){
+            for(var i = 0; i < textArray.length; i ++){
+                textArray[i].setLeft(Math.random()*c1.width);
+                textArray[i].setTop(Math.random()*c1.height);
+            }
+            update();
+        }
+
+        function getAreaPixels(canvas){
+            var testContext = canvas.getContext('2d');
+            var testData = testContext.getImageData(0,0,canvas.width,canvas.height);
+            var data1 = testData.data
+            var area = 0;
+            for(var i = 0; i<data1.length; i += 4){
+                if(data1[i] == 255){
+                    area ++;
+                }
+            }
+            return area
+        }
+
+        function animate() {
+            canvas1.item(0).animate('top', canvas1.item(0).getTop() === 500 ? '100' : '500', { 
+            duration: 1000,
+            onChange: canvas1.renderAll.bind(canvas1),
+            onComplete: animate
+            });
+
+        }
+
+        function update() {
+            canvas1.item(0).animate('top', canvas1.item(0).getTop() === 500 ? '100' : '500', { 
+            duration: 1,
+            onChange: canvas1.renderAll.bind(canvas1)
+            });
+        }
+
+        function getRMS(){
+            var testCanvas = document.getElementById('c1');
+            var testContext = testCanvas.getContext('2d');
+            var testData = testContext.getImageData(0,0,testCanvas.width,testCanvas.height);
+            
+            var templateCanvas = document.getElementById('c2');
+            var templateContext = templateCanvas.getContext('2d');
+            var templateData = templateContext.getImageData(0,0,templateCanvas.width,templateCanvas.height);
+
+            return rmsDiff(testData.data, templateData.data);
+        }
 
         function rmsDiff(data1,data2){
           var squares = 0;
