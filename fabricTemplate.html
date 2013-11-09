@@ -1,27 +1,64 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <script src="https://raw.github.com/kangax/fabric.js/master/dist/all.js"></script>
-  </head>
-  <body>
-    <canvas id="c" width="300" height="300" style="border:1px solid #ccc"></canvas>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fabric js example</title>
+    <script src="lib/all.js"></script>
+</head>
+<body>
+<div class="block">
+    <h3>Custom selection style</h3>
+    <canvas id="c1" width="600" height="800" style="border:1px solid #000"></canvas>
+    <canvas id="c2" width="600" height="800" style="border:1px solid #000"></canvas>
     <script>
-      (function() {
-   
-var canvas = new fabric.Canvas('c');
+        var canvas1 = new fabric.Canvas('c1');
+        var canvas2 = new fabric.Canvas('c2');
+        var textArray = new Array();
 
-// create a rectangle object
-var rect = new fabric.Rect({
-  left: 100,
-  top: 100,
-  fill: 'red',
-  width: 20,
-  height: 20
-});
+        fabric.Image.fromURL('assets/testImage1.png', function(oImg) {
+            oImg.setOriginX("left");
+            oImg.setOriginY("top");
+            canvas2.add(oImg);
+        });
+        
+        generateRandomText(canvas1);
 
-// "add" rectangle onto canvas
-canvas.add(rect);
-      })();
+        var testCanvas = document.getElementById('c1');
+        var testContext = testCanvas.getContext('2d');
+        var testData = testContext.getImageData(0,0,testCanvas.width,testCanvas.height);
+        
+        var templateCanvas = document.getElementById('c2');
+        var templateContext = templateCanvas.getContext('2d');
+        var templateData = templateContext.getImageData(0,0,templateCanvas.width,templateCanvas.height);
+
+        alert(rmsDiff(testData.data, templateData.data));
+
+        function rmsDiff(data1,data2){
+          var squares = 0;
+          for(var i = 0; i<data1.length; i++){
+              squares += (data1[i]-data2[i])*(data1[i]-data2[i]);
+          }
+          var rms = Math.sqrt(squares/data1.length);
+          return rms;
+        }
+
+        function generateRandomText(canvas){
+            var alphabet = new Array ('a','b','c','d','e','f','g','h','j','k');
+            var numText = 100;
+            for(var i = 0; i < numText; i ++){
+              var text = new fabric.Text('a', {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
+              textArray[i] = text;
+              canvas.add(text);
+            }
+        }
+
+        //takes two fabrics and permutates them.
+        function permutate(testCanvas1ID, testCanvas2ID){
+            var numPermutate = 0;
+            for(var i = 0; i < numPermutate; i ++){
+
+            }
+        }
     </script>
-  </body>
+</div>
+</body>
 </html>
