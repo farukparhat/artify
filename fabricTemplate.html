@@ -19,6 +19,42 @@
     <canvas id="c1" width="600" height="800" style="border:1px solid #000"></canvas>
     <canvas id="c2" width="600" height="800" style="border:1px solid #000"></canvas>
     <script>
+        document.body.appendChild(document.getElementById('c1'));
+        document.body.appendChild(document.getElementById('c2'));
+        var canvas1 = new fabric.StaticCanvas('c1');
+        var canvas2 = new fabric.StaticCanvas('c2');
+        var textArray = new Array();   
+
+
+        fabric.Image.fromURL('assets/testImage1.png', function(oImg) {
+            oImg.setOriginX("left");
+            oImg.setOriginY("top");
+            canvas2.add(oImg);
+        });
+        
+        generateRandomText(canvas1);  
+        //changeStatus();
+
+        var c=document.getElementById("c2");
+        var ctx=c.getContext("2d");
+        var imgData=ctx.createImageData(100,100);
+        for (var i=0;i<imgData.data.length;i+=4)
+          {
+          imgData.data[i+0]=255;
+          imgData.data[i+1]=0;
+          imgData.data[i+2]=0;
+          imgData.data[i+3]=255;
+          }
+        ctx.putImageData(imgData,10,10);
+
+
+        function changeStatus(){
+            for(var i = 0; i < 10; i ++){
+                changeText();
+                alert(getRMS()); 
+            }
+        }
+
         function changeText(){
             for(var i = 0; i < textArray.length; i ++){
                 textArray[i].setLeft(Math.random()*c1.width);
@@ -27,39 +63,17 @@
             update();
         }
 
-        function rmsValue(){
-            alert("yo");
-        }
-
-        var canvas1 = new fabric.StaticCanvas('c1');
-        var canvas2 = new fabric.StaticCanvas('c2');
-        var textArray = new Array();
-
-        fabric.Image.fromURL('assets/testImage1.png', function(oImg) {
-            oImg.setOriginX("left");
-            oImg.setOriginY("top");
-            canvas2.add(oImg);
-        });
-        
-        generateRandomText(canvas1);
-        
-        
-
-
-
-
-
-
-
-
-
-        function randomizeText(textList){
-            for(var i = 0; i < textList.length; i ++){
-                var currentText = textList[i];
-                currentText.setLeft(10);
-                currentText.setTop(20);
-                canvas1.add(currentText);
+        function getAreaPixels(canvas){
+            var testContext = canvas.getContext('2d');
+            var testData = testContext.getImageData(0,0,canvas.width,canvas.height);
+            var data1 = testData.data
+            var area = 0;
+            for(var i = 0; i<data1.length; i += 4){
+                if(data1[i] == 255){
+                    area ++;
+                }
             }
+            return area
         }
 
         function animate() {
