@@ -10,7 +10,7 @@ w.findClickPos = (e)->
   else if (e.clientX || e.clientY)
     posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
     posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop
-  x:posx,y:posy
+  alert "X: " + posx + " Y: " + posy
 
 w.getOffset = (el)->
   body = document.getElementsByTagName("body")[0]
@@ -52,10 +52,25 @@ this.Particle = Particle
 class Explosion
   constructor:()->
     @body          = document.getElementsByTagName("body")[0]
+    @body?.onclick = (event)=>@justClicked(event)
+    @body.addEventListener("touchstart", (event)=>
+        @touchEvent = event
+      )
+    @body.addEventListener("touchmove", (event)=>
+        @touchMoveCount ||= 0
+        @touchMoveCount++
+      )
+    @body.addEventListener("touchend", (event)=>
+        @dropBomb(@touchEvent) if @touchMoveCount < 2
+        @touchMoveCount = 0
+      )
     @explosifyNodes  @body.childNodes
     @chars = for char in document.getElementsByTagName('particle')
       curr = new Particle(char, @body)
       curr
+
+  justClicked:(event)=>
+    pos = window.findClickPos(event)
 
   explosifyNodes:(nodes)->
     for node in nodes

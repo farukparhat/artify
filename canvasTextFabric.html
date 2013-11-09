@@ -49,7 +49,6 @@
                 var c = ex.chars[i];
                 var x = c.offsetLeft;
                 var y = c.offsetTop;
-                alert("X: " + x + ", Y: " + y);
                 var text = new fabric.Text(c.char, {left:x, top:y});
                 text.set({fontSize: c.fontsize});
                 text.set({fontFamily: c.fontfamily});
@@ -64,7 +63,6 @@
                 canvas.add(text);
 
             }
-            alert("Blah");
             /*for(var i = 0; i < numText; i ++){
               var text = new fabric.Text('a', {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
               textArray[i] = text;
