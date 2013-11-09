@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>fabric js example</title>
+    <script src="lib/all.js"></script>
+</head>
+<body>
+<div class="block">
+  <h3>Custom selection style</h3>
+  <h1>
+  	<button onclick="animate()">ANIMATE!</button>
+  </h1>
+  <canvas id="c1" width="1000" height="1000" style="border:1px solid #000"></canvas>
+<script>
+    var canvas = new fabric.StaticCanvas('c1');
+   	var maxX = canvas.width;
+   	var maxY = canvas.height; 
+    canvas.selectionColor = 'rgba(0,255,0,0.3)';
+    canvas.selectionBorderColor = 'red';
+    canvas.selectionLineWidth = 5;
+
+    var totalText = 100,
+  	textArray = new Array(totalText);
+
+    generateRandomText(canvas);
+
+	function animate() {
+		for (var i = 0; i < 20; i++) {
+			text = textArray[i];
+			text.vx = 2;
+    	}
+
+    	fabric.util.requestAnimFrame(animate, canvas.getElement());
+  		canvas.renderAll();
+	}
+
+    function generateRandomText(canvas){
+	    for(var i = 0; i < totalText; i ++){
+	      var text = new fabric.Text('a', {left:Math.random()*canvas.width ,top:Math.random()*canvas.height});
+	      textArray[i] = text;
+	      canvas.add(text);
+	    }
+    }
+
+
+</script>
+</div>
+</body>
+</html>
