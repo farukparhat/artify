@@ -1,9 +1,9 @@
-artify
+Re-SS
 ======
 
 <p>Ever visited an ugly, hard-to-look-at site? Re-SS parses all the visible characters in a site, animates them, and rearranges them into a complex art form! Draw your own picture beforehand or choose from our gallery and let Re-SS give that ugly site a makeover! Available as a Chrome and Firefox-supported bookmarklet.</p>
 
-<p>Re-SS was our entry for the Fall 2013 Y-Hack at Yale University. Authored by <a href="https://github.com/alec-heif" class="user-mention">@alec-heif</a>, <a href="https://github.com/paerhati" class="user-mention">@paerhati</a>, and William Wong.</p>
+<p>Re-SS (re-do the CSS...we know bad joke) was our entry for the Fall 2013 Y-Hack at Yale University. Authored by <a href="https://github.com/alec-heif" class="user-mention">@alec-heif</a>, <a href="https://github.com/paerhati" class="user-mention">@paerhati</a>, and William Wong.</p>
 
 <p>Screenshots of app use here:</p>
 
