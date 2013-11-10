@@ -1,0 +1,17 @@
+<a href="javascript:(function () {
+  var a = document.createElement('script');
+  a.setAttribute('src', 'https://dl.dropboxusercontent.com/u/6258038/all.js');
+  document.body.appendChild(a);
+
+  var b = document.createElement('script');
+  b.setAttribute('src', 'https://dl.dropboxusercontent.com/u/6258038/explosion.js')
+  document.body.appendChild(b);
+
+  var c = document.createElement('script');
+  c.setAttribute('src', 'https://dl.dropboxusercontent.com/u/6258038/greedyPlaceFinder.js');
+  document.body.appendChild(c);
+
+  var d = document.createElement('script');
+  d.setAttribute('src', 'https://dl.dropboxusercontent.com/u/6258038/allTests.js');
+  document.body.appendChild(d);
+}());" </a>
